@@ -1,0 +1,1 @@
+Webscraper application that will scrape the play history of any Chess.com user, and compile the data into a large assortment of stats.
