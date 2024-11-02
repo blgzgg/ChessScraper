@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+        .nav-buttons {
+            list-style-type: none;
+            padding: 0;
+            text-align: center;
+        }
+        .nav-buttons li {
+            display: inline;
+            margin-right: 10px;
+        }
+        .nav-buttons li a {
+            background-color: #555;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .nav-buttons li a:hover {
+            background-color: #777;
+        }
+        main {
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            border: 3px solid black;
+            font-size: 16px;
+        }
+        body {
+            background-color: lightslategray;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Chess Scraper</h1>
+        <nav>
+            <ul class="nav-buttons">
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
