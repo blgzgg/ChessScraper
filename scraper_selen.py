@@ -70,6 +70,6 @@ def extract_move_selenium(move_div):
     return piece + move_text
 
 # Example test run
-game_url = "https://www.chess.com/analysis/game/live/115351119473?tab=analysis"
+game_url = "https://www.chess.com/analysis/game/daily/574886339?tab=analysis"
 moves = extract_moves_with_selenium(game_url)
 print("Moves:", moves)
