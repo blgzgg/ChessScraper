@@ -4,11 +4,20 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 import time
 
+piece_notation = {
+    'K': 'K',  # King
+    'Q': 'Q',  # Queen
+    'R': 'R',  # Rook
+    'B': 'B',  # Bishop
+    'N': 'N',  # Knight
+    'P': ''    # Pawn has no letter
+}
+
 # Set up Chrome options
 chrome_options = Options()
-chrome_options.add_argument("--headless")  # Run in headless mode (no GUI)
+chrome_options.add_argument("--headless")
 
-# Path to your ChromeDriver
+# ChromeDriver Path
 chrome_driver_path = 'C:/ChromeDriver/chromedriver-win64/chromedriver.exe'
 
 def extract_moves_with_selenium(game_url):
@@ -17,13 +26,13 @@ def extract_moves_with_selenium(game_url):
     driver = webdriver.Chrome(service=service, options=chrome_options)
     
     driver.get(game_url)
-    time.sleep(3)  # Allow the page to load (adjust this based on load times)
+    time.sleep(1)  # Page must load element
 
     try:
-        # Find the move list using Selenium
+        # Find move list
         move_list_element = driver.find_element(By.CSS_SELECTOR, 'wc-move-list.analysis-view-movelist')
         
-        # Extract the move elements
+        # Extract move elements
         move_rows = move_list_element.find_elements(By.CLASS_NAME, 'main-line-row')
         moves = []
 
@@ -52,12 +61,12 @@ def extract_moves_with_selenium(game_url):
 
 def extract_move_selenium(move_div):
     """Extract a move from a specific div element."""
-    # Try to extract the piece being moved from the data-figurine attribute (if present)
+    # Try to extract the piece being moved from the data-figurine attribute if present
     try:
         figurine_span = move_div.find_element(By.CSS_SELECTOR, 'span.icon-font-chess')
         piece = piece_notation.get(figurine_span.get_attribute('data-figurine'), '')  # Get piece notation or empty for pawns
     except Exception:
-        piece = ''  # If no chess piece icon is found, default to pawn (which has no notation)
+        piece = ''  # If no chess piece icon is found, default to pawn
 
     # Try to extract the destination square from the move text
     try:
