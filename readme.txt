@@ -1,5 +1,17 @@
 Webscraper application that will scrape the play history of any Chess.com user, and compile the data into a large assortment of stats.
 
+    ~ Timeline ~
+[Complete] Create webscraping script to pull game moves in chess notation.
+[Complete] Create database structure
+[Complete] Docker setup
+
+[In Progress] Write script to process game moves into database
+
+[] Write queries to calculate desired stats
+[] Implement query features into flask app
+[] Stylize and make flask user friendly
+[] Live website
+
 
     ~ Planned Stats ~
 
