@@ -2,14 +2,15 @@ version: '3.8'
 
 services:
   web:
-    build: .
+    build:
+      context: .
     container_name: flask_app
-    volumes:
-      - .:/app
     ports:
       - "5000:5000"
+    volumes:
+      - .:/app
     environment:
-      - DATABASE_URL=postgresql://postgres:password@db:5432/chessdb
+      DATABASE_URL: postgresql://postgres:password@db:5432/chessdb
     depends_on:
       - db
 
@@ -20,10 +21,11 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       POSTGRES_DB: chessdb
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./dbs:/docker-entrypoint-initdb.d
 
 volumes:
   postgres_data:
