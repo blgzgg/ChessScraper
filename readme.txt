@@ -42,4 +42,19 @@ Piece Class:
 
 Game Statistics:
     Users' winrate when specific pieces selected by the user were still on the board or not;
-    Calculate average piece differential of user 
+    Calculate average piece differential of user
+
+
+
+
+API Endpoints
+
+User Stats
+
+https://api.chess.com/pub/player/{username}/stats
+Game archives by month
+
+https://api.chess.com/pub/player/{username}/games/archives
+Game month archives
+
+https://api.chess.com/pub/player/{username}/games/{YYYY}/{MM}
