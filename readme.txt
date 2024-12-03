@@ -1,5 +1,17 @@
 Webscraper application that will scrape the play history of any Chess.com user, and compile the data into a large assortment of stats.
 
+    ~ Timeline ~
+[Complete] Create webscraping script to pull game moves in chess notation.
+[Complete] Create database structure
+[Complete] Docker setup
+
+[In Progress] Write script to process game moves into database
+
+[] Write queries to calculate desired stats
+[] Implement query features into flask app
+[] Stylize and make flask user friendly
+[] Live website
+
 
     ~ Planned Stats ~
 
@@ -31,3 +43,19 @@ Piece Class:
 Game Statistics:
     Users' winrate when specific pieces selected by the user were still on the board or not;
     Calculate average piece differential of user 
+
+
+
+
+
+API Endpoints
+
+User Stats
+
+https://api.chess.com/pub/player/{username}/stats
+Game archives by month
+
+https://api.chess.com/pub/player/{username}/games/archives
+Game month archives
+
+https://api.chess.com/pub/player/{username}/games/{YYYY}/{MM}
