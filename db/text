@@ -1,0 +1,21 @@
+To add:
+
+Add link to game on graph hover box
+
+Add link to player profile on Chess.com in the player stats section
+
+Improve the heatmap
+
+Makes dates on bottom of graph more dynamic?
+
+Add filtering options to graph
+    - filter by date range
+    - filter by games against specific opponent
+
+Additional stats
+    - # of times promoted for pawns
+    - # of spaces moved
+    - # of times placed king in check (This one will probably be pretty challenging as there is no current method to see if the king is placed in check. writing the logic may be challenging, so perhaps using the unprocessed pgn format could work as it specifically indicates when check occurs. Could make an array of the turn #'s in which check occurs and pass it along with the game data)
+
+Bonus
+    - A counter for any instances of a rook or king first blood found

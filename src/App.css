@@ -1,0 +1,936 @@
+body {
+  margin: 0;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #312e2b;
+  color: white;
+}
+
+/* Header (left-aligned content) */
+.header {
+  padding: 16px 24px;
+  border-bottom: 1px solid #3d3a36;
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* Main content box */
+.content-box {
+  background-color: #312e2b;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+/* Dynamic growing area */
+.dynamic-area {
+  width: 100%;
+  max-width: 760px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.placeholder {
+  color: #888;
+}
+
+.error-text {
+  color: #f44336;
+  margin-top: 12px;
+}
+
+.data-item {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 90%;
+  text-align: center;
+}
+
+/* Input area at bottom */
+.input-area {
+  padding-top: 25px;
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  max-width: 600px;
+  justify-content: center;
+}
+
+.input-area input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.input-area button {
+  padding: 10px 16px;
+  border: none;
+  background-color: #5d9948;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.input-area button:hover {
+  background-color: #555;
+}
+
+.input-area button:disabled {
+  background-color: #444;
+  cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------------ */
+/* Stats overview card                                                 */
+/* ------------------------------------------------------------------ */
+
+.stats-card {
+  width: 100%;
+  max-width: 420px;
+  background-color: #262421;
+  border: 1px solid #3d3a36;
+  border-radius: 12px;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.stats-name {
+  margin: 0 0 16px 0;
+  font-size: 1.6rem;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  text-align: center;
+  word-break: break-word;
+}
+
+.stats-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid #5d9948;
+  object-fit: cover;
+  margin-bottom: 20px;
+  background-color: #1e1e1e;
+}
+
+.stats-avatar-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: bold;
+  color: #5d9948;
+}
+
+.stats-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stats-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background-color: #1e1e1e;
+  border-left: 3px solid #5d9948;
+  border-radius: 6px;
+}
+
+.stats-label {
+  color: #b8b6b3;
+  font-size: 0.92rem;
+  letter-spacing: 0.3px;
+}
+
+.stats-value {
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 1.05rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------------ */
+/* Progress bar                                                        */
+/* ------------------------------------------------------------------ */
+
+.progress-wrapper {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 18px;
+}
+
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  color: #b8b6b3;
+}
+
+.progress-message {
+  letter-spacing: 0.3px;
+}
+
+.progress-counter {
+  font-variant-numeric: tabular-nums;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.progress-track {
+  position: relative;
+  width: 100%;
+  height: 12px;
+  background-color: #1e1e1e;
+  border: 1px solid #3d3a36;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #5d9948 0%, #7ab85f 100%);
+  border-radius: 999px;
+  transition: width 200ms ease-out;
+  width: 0%;
+}
+
+/* Indeterminate state — used during fetching/init when we don't yet
+   have a per-game ratio. A sliding bar gives feedback that work is
+   still happening even though no percentage is meaningful. */
+.progress-track.indeterminate .progress-fill {
+  width: 35%;
+  animation: indeterminate-slide 1.4s ease-in-out infinite;
+}
+
+@keyframes indeterminate-slide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(285%); }
+}
+
+/* ------------------------------------------------------------------ */
+/* Per-piece chess board                                               */
+/* ------------------------------------------------------------------ */
+
+.piece-board-wrapper {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 12px;
+  padding: 24px;
+  background-color: #262421;
+  border: 1px solid #3d3a36;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.piece-board-title {
+  margin: 0 0 4px 0;
+  font-size: 1.4rem;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+.piece-board-subtitle {
+  margin: 0 0 18px 0;
+  color: #b8b6b3;
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+.piece-board {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #5d9948;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: #1e1e1e;
+}
+
+.piece-board-row {
+  display: flex;
+}
+
+.piece-square {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.4rem;
+  line-height: 1;
+  cursor: default;
+  position: relative;
+  transition: transform 120ms ease, filter 120ms ease;
+}
+
+.piece-square.light { background-color: #ebecd0; }
+.piece-square.dark  { background-color: #739552; }
+
+.piece-square.has-data { cursor: pointer; }
+
+.piece-square.has-data:hover {
+  transform: scale(1.08);
+  filter: brightness(1.15);
+  z-index: 2;
+}
+
+/* Faded look for pieces the player has no data on (haven't played that color yet) */
+.piece-square.no-data .piece-glyph { opacity: 0.25; }
+
+.piece-glyph {
+  user-select: none;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  position: relative;
+  z-index: 1;
+}
+
+.piece-white { color: #ffffff; }
+.piece-black { color: #1a1a1a; }
+
+.rank-label,
+.file-label {
+  width: 22px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1e1e1e;
+  color: #888;
+  font-size: 0.78rem;
+  font-weight: bold;
+}
+
+.file-row {
+  height: 22px;
+}
+
+.file-row .file-label,
+.file-row .rank-label {
+  width: 56px;
+  height: 22px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Piece hover tooltip                                                 */
+/* ------------------------------------------------------------------ */
+
+.piece-tooltip {
+  position: fixed;
+  transform: translate(-50%, calc(-100% - 12px));
+  pointer-events: none;
+  background-color: #1e1e1e;
+  border: 1px solid #5d9948;
+  border-radius: 8px;
+  padding: 14px 16px;
+  min-width: 220px;
+  z-index: 1000;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+}
+
+.piece-tooltip-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #3d3a36;
+}
+
+.piece-tooltip-glyph {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.piece-tooltip-name {
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+.piece-tooltip-meta {
+  font-size: 0.8rem;
+  color: #b8b6b3;
+  margin-top: 2px;
+}
+
+.piece-tooltip-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.piece-tooltip-list li {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.86rem;
+  padding: 3px 0;
+}
+
+.piece-tooltip-list li span:first-child {
+  color: #b8b6b3;
+}
+
+.piece-tooltip-list li span:last-child {
+  color: #ffffff;
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------------ */
+/* Heatmap controls + aura                                             */
+/* ------------------------------------------------------------------ */
+
+.heatmap-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.heatmap-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #b8b6b3;
+  font-size: 0.9rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.heatmap-toggle input[type="checkbox"] {
+  accent-color: #5d9948;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+
+.heatmap-select {
+  background-color: #1e1e1e;
+  color: #ffffff;
+  border: 1px solid #3d3a36;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.88rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 150ms ease;
+}
+
+.heatmap-select:hover:not(:disabled) {
+  border-color: #5d9948;
+}
+
+.heatmap-select:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.heatmap-aura {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  /* the inline style controls scale + opacity per-piece based on intensity */
+  transition: transform 200ms ease, opacity 200ms ease;
+}
+
+.heatmap-aura.heatmap-good {
+  background: radial-gradient(circle,
+    rgba(33, 150, 243, 1)    0%,
+    rgba(33, 150, 243, 0.85) 35%,
+    rgba(33, 150, 243, 0.45) 65%,
+    rgba(33, 150, 243, 0)    85%);
+  box-shadow: 0 0 26px 8px rgba(33, 150, 243, 0.75);
+}
+
+.heatmap-aura.heatmap-bad {
+  background: radial-gradient(circle,
+    rgba(244, 67, 54, 1)    0%,
+    rgba(244, 67, 54, 0.85) 35%,
+    rgba(244, 67, 54, 0.45) 65%,
+    rgba(244, 67, 54, 0)    85%);
+  box-shadow: 0 0 26px 8px rgba(244, 67, 54, 0.75);
+}
+
+.heatmap-aura.heatmap-neutral {
+  background: radial-gradient(circle,
+    rgba(200, 200, 200, 0.85) 0%,
+    rgba(200, 200, 200, 0.4)  55%,
+    rgba(200, 200, 200, 0)    80%);
+}
+
+/* ------------------------------------------------------------------ */
+/* Info icon + popup                                                   */
+/* ------------------------------------------------------------------ */
+
+.info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-left: 6px;
+  border-radius: 50%;
+  border: 1px solid #5d9948;
+  background-color: transparent;
+  color: #5d9948;
+  font-size: 0.7rem;
+  font-style: italic;
+  font-weight: bold;
+  font-family: Georgia, serif;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  vertical-align: middle;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.info-icon:hover {
+  background-color: #5d9948;
+  color: #ffffff;
+}
+
+.info-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: info-fade-in 150ms ease-out;
+}
+
+@keyframes info-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.info-popup {
+  position: relative;
+  background-color: #262421;
+  border: 1px solid #5d9948;
+  border-radius: 12px;
+  padding: 28px 32px;
+  max-width: 440px;
+  width: calc(100% - 40px);
+  color: #ffffff;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7);
+  animation: info-slide-in 200ms ease-out;
+}
+
+@keyframes info-slide-in {
+  from { transform: translateY(12px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.info-popup h3 {
+  margin: 0 0 14px 0;
+  font-size: 1.4rem;
+  color: #5d9948;
+}
+
+.info-popup h4 {
+  margin: 18px 0 10px 0;
+  font-size: 1rem;
+  color: #b8b6b3;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.info-popup p {
+  margin: 0;
+  line-height: 1.55;
+  color: #d9d6d2;
+}
+
+.info-popup-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  color: #b8b6b3;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  border-radius: 4px;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.info-popup-close:hover {
+  background-color: #3d3a36;
+  color: #ffffff;
+}
+
+.info-piece-values {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 20px;
+}
+
+.info-piece-values li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: #d9d6d2;
+}
+
+.info-piece-values .vp-glyph {
+  font-size: 1.4rem;
+  line-height: 1;
+  color: #ffffff;
+  width: 22px;
+  text-align: center;
+}
+
+.info-piece-values b {
+  color: #ffffff;
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Make the stats-card label flex-friendly so the info icon sits inline */
+.stats-label {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ------------------------------------------------------------------ */
+/* Graph card (wraps Plotly iframes for visual consistency)            */
+/* ------------------------------------------------------------------ */
+
+.graph-card {
+  width: 100%;
+  max-width: 760px;
+  background-color: #262421;
+  border: 1px solid #3d3a36;
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+.graph-card object {
+  display: block;
+  border-radius: 8px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Profile link in stats card                                          */
+/* ------------------------------------------------------------------ */
+
+.stats-profile-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+  margin-bottom: 16px;
+  padding: 8px;
+  border-radius: 10px;
+  transition: background-color 150ms ease;
+}
+
+.stats-profile-link:hover {
+  background-color: rgba(93, 153, 72, 0.08);
+}
+
+.stats-profile-link:hover .stats-name {
+  color: #5d9948;
+}
+
+.stats-profile-link:hover .stats-external-icon {
+  opacity: 1;
+  transform: translate(2px, -2px);
+}
+
+.stats-profile-link .stats-name {
+  margin: 0 0 16px 0;
+  transition: color 150ms ease;
+}
+
+.stats-profile-link .stats-avatar {
+  margin-bottom: 0;
+}
+
+.stats-external-icon {
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 0.85rem;
+  color: #5d9948;
+  opacity: 0.6;
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+/* ------------------------------------------------------------------ */
+/* Filter bar                                                          */
+/* ------------------------------------------------------------------ */
+
+.filter-bar {
+  width: 100%;
+  max-width: 760px;
+  background-color: #262421;
+  border: 1px solid #3d3a36;
+  border-radius: 12px;
+  padding: 14px 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.filter-bar-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.filter-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+.filter-toggle:hover {
+  background-color: rgba(93, 153, 72, 0.1);
+}
+
+.filter-toggle-icon {
+  display: inline-block;
+  font-size: 0.8rem;
+  width: 12px;
+  color: #5d9948;
+}
+
+.filter-active-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #5d9948;
+  box-shadow: 0 0 6px rgba(93, 153, 72, 0.6);
+}
+
+.filter-summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.filter-chip {
+  background-color: rgba(93, 153, 72, 0.15);
+  border: 1px solid #5d9948;
+  color: #d9d6d2;
+  font-size: 0.82rem;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-family: inherit;
+}
+
+.filter-clear-inline {
+  background: transparent;
+  border: none;
+  color: #b8b6b3;
+  font-size: 0.82rem;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 2px 6px;
+  margin-left: auto;
+  font-family: inherit;
+}
+
+.filter-clear-inline:hover:not(:disabled) {
+  color: #ffffff;
+}
+
+.filter-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px 14px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid #3d3a36;
+}
+
+.filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 130px;
+}
+
+/* Date fields are compact; opponent grows to fill remaining space */
+.filter-field-grow {
+  flex: 1 1 200px;
+  min-width: 180px;
+}
+
+.filter-field label {
+  color: #b8b6b3;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: bold;
+}
+
+.filter-field input[type="date"],
+.filter-field input[type="text"],
+.filter-field select {
+  background-color: #1e1e1e;
+  border: 1px solid #3d3a36;
+  border-radius: 6px;
+  padding: 8px 10px;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-family: inherit;
+  transition: border-color 150ms ease;
+}
+
+.filter-field select {
+  cursor: pointer;
+  /* Replace the default native chevron with one that matches the theme */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%23b8b6b3' stroke-width='2' fill='none' stroke-linecap='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px;
+}
+
+.filter-field input:focus,
+.filter-field select:focus {
+  outline: none;
+  border-color: #5d9948;
+}
+
+/* Date input native picker icon — make it visible on the dark theme */
+.filter-field input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.7);
+  cursor: pointer;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.filter-apply,
+.filter-clear {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background-color 150ms ease;
+}
+
+.filter-apply {
+  background-color: #5d9948;
+  color: #ffffff;
+}
+
+.filter-apply:hover:not(:disabled) {
+  background-color: #6cb054;
+}
+
+.filter-clear {
+  background-color: transparent;
+  color: #b8b6b3;
+  border: 1px solid #3d3a36;
+}
+
+.filter-clear:hover:not(:disabled) {
+  background-color: #3d3a36;
+  color: #ffffff;
+}
+
+.filter-apply:disabled,
+.filter-clear:disabled,
+.filter-clear-inline:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Dim the graphs slightly while a filter refetch is in flight so the
+   user sees that something is happening. */
+.graph-card-busy {
+  opacity: 0.55;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}
+
+/* Responsive: when narrow, force fields to grow so 1-2 fit per row.
+   Flex-wrap already handles the basics; this just tunes the widths. */
+@media (max-width: 640px) {
+  .filter-field {
+    flex: 1 1 calc(50% - 14px);
+    min-width: 0;
+  }
+  .filter-field-grow {
+    flex-basis: 100%;
+  }
+  .filter-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
