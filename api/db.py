@@ -4,7 +4,10 @@ import os
 # Path resolution — db.py lives in the project root, the schema lives in ../db/
 _THIS_DIR    = os.path.dirname(os.path.abspath(__file__))
 SCHEMA_PATH  = os.path.normpath(os.path.join(_THIS_DIR, "..", "db", "chessdb.sql"))
-DB_PATH      = os.path.normpath(os.path.join(_THIS_DIR, "..", "db", "chessdb.sqlite"))
+DB_PATH = os.environ.get(
+    "CHESSDB_PATH",
+    os.path.normpath(os.path.join(_THIS_DIR, "..", "db", "chessdb.sqlite"))
+)
 
 
 def get_connection():
