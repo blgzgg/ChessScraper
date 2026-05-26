@@ -4,7 +4,6 @@ import json
 import queue
 import threading
 import datetime
-import matplotlib.pyplot as plt
 from scraper import find_all_game_data
 from flask_cors import CORS
 import db

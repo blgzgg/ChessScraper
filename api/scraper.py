@@ -7,7 +7,6 @@ import re
 import chess
 import chess.pgn
 import io
-import matplotlib.pyplot as plt
 import db  # ← database layer
 
 
