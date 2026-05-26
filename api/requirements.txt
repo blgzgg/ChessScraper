@@ -4,3 +4,4 @@ flask_cors==6.0.2
 matplotlib==3.10.9
 plotly==5.22.0
 Requests==2.34.2
+gunicorn==26.0.0
