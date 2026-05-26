@@ -3,7 +3,7 @@ import chessLogo from './assets/ChessLogo.png'
 import chessLogoRotate from './assets/ChessLogo-Rotate.png'
 import './App.css'
 
-const API_BASE = "http://127.0.0.1:5000"
+const API_BASE = import.meta.env.VITE_API_BASE || ""
 
 // Empty filter state — used both as the React initial value and as the
 // "no filters applied" reference when comparing applied vs draft filters.
