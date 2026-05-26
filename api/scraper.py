@@ -460,19 +460,6 @@ def parse_games(games_list):
     return games_list
 
 
-def create_graph(games_list):
-    kdr_values = [game.get_format("kdr") for game in games_list]
-    plt.plot(range(len(games_list)), kdr_values,
-             marker='o', linestyle='-', color='b', label='Kill/Death Ratio')
-    plt.plot(range(len(games_list)), [1.0] * len(games_list),
-             linestyle='--', color='r', label='Baseline KDR = 1.0')
-    plt.title('Kill/Death Ratio for each game')
-    plt.xlabel('Game #')
-    plt.ylabel('Kill/Death Ratio')
-    plt.legend()
-    plt.show()
-
-
 # ---------------------------------------------------------------------------
 # Private helpers
 # ---------------------------------------------------------------------------

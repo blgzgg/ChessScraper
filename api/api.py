@@ -43,31 +43,6 @@ def _fmt_date(epoch) -> str:
 # Routes
 # ---------------------------------------------------------------------------
 
-@app.route("/generate_graph", methods=["POST"])
-def generate_graph():
-    data = request.get_json()
-    username = data.get("username", "").lower().strip()
-    if not username:
-        return jsonify({"error": "No username provided"}), 400
-
-    games_list = find_all_game_data(username)
-
-    kdr_values = [game.get_format("kdr") for game in games_list]
-    plt.figure()
-    plt.plot(range(len(games_list)), kdr_values,
-             marker='o', linestyle='-', color='b', label='Kill/Death Ratio')
-    plt.plot(range(len(games_list)), [1.0] * len(games_list),
-             linestyle='--', color='r', label='Baseline KDR')
-    plt.title(f"KDR for {username}")
-    plt.xlabel("Game #")
-    plt.ylabel("Kill/Death Ratio")
-    plt.legend()
-
-    img_bytes = io.BytesIO()
-    plt.savefig(img_bytes, format='png')
-    plt.close()
-    img_bytes.seek(0)
-    return send_file(img_bytes, mimetype='image/png')
 
 
 @app.route("/generate_plotly_graph", methods=["POST"])
